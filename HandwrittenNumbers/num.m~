@@ -1,0 +1,23 @@
+k = 8; 
+kSmallest = NaN(2, k); %% [class i; distance]
+kSmallest(2, :) = Inf;
+classified = zeros(num_test, 1);
+
+kSmallest(1, :) = testlab(1:k);
+for 
+
+for i = 1:num_test 
+    x = testv(i, :);
+    for j = 1:num_train
+        T = trainv(j, :);
+        dist = (x' - T')'*(x' - T');
+        if(dist < kSmallest(2, 1))
+            kSmallest(:, end) = [trainlab(j); dist];
+            kSmallest = sortrows(kSmallest.',1).';
+        end
+    end
+    classified(i) = mode(kSmallest); 
+end
+
+
+
