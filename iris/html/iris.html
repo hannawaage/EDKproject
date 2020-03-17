@@ -1,0 +1,182 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>iris</title><meta name="generator" content="MATLAB 9.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-03-17"><meta name="DC.source" content="iris.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">The Iris Task 1</a></li><li><a href="#2">Training</a></li><li><a href="#3">Testing</a></li><li><a href="#4">Plot test results</a></li></ul></div><h2 id="1">The Iris Task 1</h2><pre class="codeinput">clear <span class="string">all</span>
+
+x1 = load(<span class="string">'Iris_TTT4275/class_1'</span>,<span class="string">'-ascii'</span>);
+x2 = load(<span class="string">'Iris_TTT4275/class_2'</span>,<span class="string">'-ascii'</span>);
+x3 = load(<span class="string">'Iris_TTT4275/class_3'</span>,<span class="string">'-ascii'</span>);
+
+Ntest = 30;
+i     = [1,2,3,4]; <span class="comment">% Features to include</span>
+
+<span class="comment">% Use first 30 samples to train:</span>
+xtrain = [x1(1:Ntest,i); x2(1:Ntest,i); x3(1:Ntest,i)];
+xtest  = [x1(Ntest+1:end,i); x2(Ntest+1:end,i); x3(Ntest+1:end,i)];
+
+<span class="comment">% Use last 30 samples to train:</span>
+<span class="comment">% xtrain = [x1(end-Ntest+1:end,i); x2(end-Ntest+1:end,i); x3(end-Ntest+1:end,i)];</span>
+<span class="comment">% xtest  = [x1(1:end-Ntest,i); x2(1:end-Ntest,i); x3(1:end-Ntest,i)];</span>
+
+C       = 3;                                        <span class="comment">% Number of classes</span>
+D       = size(xtrain,2);                           <span class="comment">% Dimension of x</span>
+W0      = zeros(C,D+1);                             <span class="comment">% Initial weight matrix</span>
+sigmoid = @(x) 1./(1+exp(-x));                      <span class="comment">% Sigmoid function</span>
+gk      = @(xk,W) sigmoid(W*xk);                    <span class="comment">% Discriminant function</span>
+X       = [xtrain(1:Ntest*C,:)'; ones(1, Ntest*C)]; <span class="comment">% Feature matrix</span>
+T       = [kron(ones(1,Ntest), [1 0 0]') <span class="keyword">...</span><span class="comment">        % Target values</span>
+           kron(ones(1,Ntest), [0 1 0]')  <span class="keyword">...</span>
+           kron(ones(1,Ntest), [0 0 1]')];
+</pre><h2 id="2">Training</h2><pre class="codeinput"><span class="comment">%W = fminunc(@(w)MSE(X,T,w,gk), W0);</span>
+[W, niterations] = gradient_decent(W0, X, T, gk, 0.01);
+mse = MSE(X,T,W,gk)
+</pre><pre class="codeoutput">
+mse =
+
+    8.9647
+
+</pre><h2 id="3">Testing</h2><pre class="codeinput">Xtest       = [xtest'; ones(1, size(xtest,1))];               <span class="comment">% Test cases</span>
+Ttest       = [repelem(1,20), repelem(2,20), repelem(3,20)];  <span class="comment">% Solution</span>
+[~,classes] = max(W*Xtest);                                   <span class="comment">% Assigned classes</span>
+
+error_rate  = length(find(classes~=Ttest))/length(classes)
+confusion   = confusionmat(Ttest,classes)
+</pre><pre class="codeoutput">
+error_rate =
+
+    0.0333
+
+
+confusion =
+
+    20     0     0
+     0    18     2
+     0     0    20
+
+</pre><h2 id="4">Plot test results</h2><p>close all figure subplot(2,1,1) stairs(classes,'LineWidth', 2) grid legend('Assigned class') ylabel('class')</p><p>subplot(2,1,2) stairs(Ttest,'LineWidth', 2) grid legend('True class') xlabel('Sample number') ylabel('class')</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% The Iris Task 1
+clear all
+
+x1 = load('Iris_TTT4275/class_1','-ascii');
+x2 = load('Iris_TTT4275/class_2','-ascii');
+x3 = load('Iris_TTT4275/class_3','-ascii');
+
+Ntest = 30; 
+i     = [1,2,3,4]; % Features to include
+
+% Use first 30 samples to train:
+xtrain = [x1(1:Ntest,i); x2(1:Ntest,i); x3(1:Ntest,i)];
+xtest  = [x1(Ntest+1:end,i); x2(Ntest+1:end,i); x3(Ntest+1:end,i)];
+
+% Use last 30 samples to train:
+% xtrain = [x1(end-Ntest+1:end,i); x2(end-Ntest+1:end,i); x3(end-Ntest+1:end,i)];
+% xtest  = [x1(1:end-Ntest,i); x2(1:end-Ntest,i); x3(1:end-Ntest,i)];
+
+C       = 3;                                        % Number of classes
+D       = size(xtrain,2);                           % Dimension of x
+W0      = zeros(C,D+1);                             % Initial weight matrix
+sigmoid = @(x) 1./(1+exp(-x));                      % Sigmoid function
+gk      = @(xk,W) sigmoid(W*xk);                    % Discriminant function
+X       = [xtrain(1:Ntest*C,:)'; ones(1, Ntest*C)]; % Feature matrix
+T       = [kron(ones(1,Ntest), [1 0 0]') ...        % Target values
+           kron(ones(1,Ntest), [0 1 0]')  ...
+           kron(ones(1,Ntest), [0 0 1]')];             
+
+%% Training
+%W = fminunc(@(w)MSE(X,T,w,gk), W0);
+[W, niterations] = gradient_decent(W0, X, T, gk, 0.01);
+mse = MSE(X,T,W,gk)
+
+
+%% Testing
+Xtest       = [xtest'; ones(1, size(xtest,1))];               % Test cases
+Ttest       = [repelem(1,20), repelem(2,20), repelem(3,20)];  % Solution
+[~,classes] = max(W*Xtest);                                   % Assigned classes
+
+error_rate  = length(find(classes~=Ttest))/length(classes)
+confusion   = confusionmat(Ttest,classes)
+
+
+%% Plot test results
+% close all
+% figure
+% subplot(2,1,1)
+% stairs(classes,'LineWidth', 2)
+% grid
+% legend('Assigned class')
+% ylabel('class')
+% 
+% subplot(2,1,2)
+% stairs(Ttest,'LineWidth', 2)
+% grid
+% legend('True class')
+% xlabel('Sample number')
+% ylabel('class')
+##### SOURCE END #####
+--></body></html>
