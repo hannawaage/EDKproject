@@ -18,7 +18,7 @@ xtest  = [x1(Ntest+1:end,i); x2(Ntest+1:end,i); x3(Ntest+1:end,i)];
 
 C       = 3;                                        % Number of classes
 D       = size(xtrain,2);                           % Dimension of x
-W0      = zeros(C,D+1);                             % Initial weight matrix
+W0      = eye(C,D+1);                               % Initial weight matrix
 sigmoid = @(x) 1./(1+exp(-x));                      % Sigmoid function
 gk      = @(xk,W) sigmoid(W*xk);                    % Discriminant function
 X       = [xtrain(1:Ntest*C,:)'; ones(1, Ntest*C)]; % Feature matrix
@@ -28,8 +28,8 @@ T       = [kron(ones(1,Ntest), [1 0 0]') ...        % Target values
 
 %% Training
 %W = fminunc(@(w)MSE(X,T,w,gk), W0);
-[W, niterations] = gradient_decent(@(W)MSE_grad(X,T,W,gk), W0, 0.01);
-mse = MSE(X,T,W,gk)
+[W, niterations] = gradient_descent(@(W)MSE_grad(X,T,W,gk), W0, 0.01);
+%mse = MSE(X,T,W,gk)
 
 
 %% Testing
@@ -37,8 +37,14 @@ Xtest       = [xtest'; ones(1, size(xtest,1))];               % Test cases
 Ttest       = [repelem(1,20), repelem(2,20), repelem(3,20)];  % Solution
 [~,classes] = max(W*Xtest);                                   % Assigned classes
 
-error_rate  = length(find(classes~=Ttest))/length(classes)
+error_rate  = sum(classes~=Ttest)/length(classes)
 confusion   = confusionmat(Ttest,classes)
+
+% Finding error rate and confusion matrix for training data
+% Ttrain = [repelem(1,30), repelem(2,30), repelem(3,30)];
+% [~,train] = max(W*X);
+% error_rate_train = sum(train~=Ttrain)/length(train)
+% confusion_train = confusionmat(Ttrain, train)
 
 
 %% Plot test results
