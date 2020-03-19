@@ -1,4 +1,4 @@
-function [W,n] = gradient_decent(gradient, W0, alpha)
+function [W,n] = gradient_descent(gradient, W0, alpha)
     % Gradient decent sucks 
     W = W0;
     iterate = true;
