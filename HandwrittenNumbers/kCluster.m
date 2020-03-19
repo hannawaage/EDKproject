@@ -1,4 +1,5 @@
 M = 64;
+K = 7;
 
 %% Find indeces of the vectors of the individual classes
 class_lengths = ones(1, 10);
@@ -34,9 +35,12 @@ for i = 1:20
     M_dist = pdist2(x, C);
     k = 1;
     for j = start:endin
-        [~, I] = min(M_dist(k, :));
-        I = floor((I-1)/M);
-        classified(j) = I;
+        [~, I] = mink(M_dist(k, :), K);
+        for l = 1:length(I)
+            I(l) = floor((I(l)-1)/M);
+        end
+        right_class = mode(I);
+        classified(j) = right_class;
         k = k + 1;
     end
 end

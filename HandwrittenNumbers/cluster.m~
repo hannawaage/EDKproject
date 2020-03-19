@@ -23,19 +23,21 @@ for j = 1:10
     end
     [~, Cis(j, :, :)] = kmeans(classVectors, M);
 end
-C = reshape(Cis, [10*M vec_size]);
 %% Find smallest distance 
-
+C = reshape(Cis, [10*M vec_size]);
 classified = NaN(num_test, 1);
 for i = 1:20
     start = 1 + (i-1)*num_test/20;
     endin = i*num_test/20;
     x = testv(start:endin, :);
-    M_dist = pdist2(x, C);
+    M = pdist2(x, C);
     k = 1;
     for j = start:endin
-        [~, I] = min(M_dist(k, :));
-        I = floor((I-1)/M);
+        [~, I] = min(M(k, :));
+        if mod(I, 64) == 0
+            I = floor
+        end
+        I = floor(I/64);
         classified(j) = I;
         k = k + 1;
     end
