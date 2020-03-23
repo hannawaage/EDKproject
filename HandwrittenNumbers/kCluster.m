@@ -1,6 +1,5 @@
 M = 64;
-K = 7;
-
+K = 5;
 %% Find indeces of the vectors of the individual classes
 class_lengths = ones(1, 10);
 max_num = 6743;
@@ -12,7 +11,7 @@ for i = 1:num_train
 end
 
 %% Find class specific clusters - Cis is a 3D Matrix of cluster matrices, each w/ 64 templates 
-Cis = NaN(10, M, vec_size);
+Cis = NaN(M, 10, vec_size);
 for j = 1:10
     n = class_lengths(j) - 1;
     classVectors = NaN(n, vec_size);
@@ -22,11 +21,11 @@ for j = 1:10
         classVectors(k, :) = trainv(ind, :);
         k = k + 1;
     end
-    [~, Cis(j, :, :)] = kmeans(classVectors, M);
+    [~, Cis(:, j, :)] = kmeans(classVectors, M);
 end
+
 C = reshape(Cis, [10*M vec_size]);
 %% Find smallest distance 
-
 classified = NaN(num_test, 1);
 for i = 1:20
     start = 1 + (i-1)*num_test/20;

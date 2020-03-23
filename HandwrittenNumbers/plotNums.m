@@ -22,7 +22,7 @@ sgtitle('Some random correctly classified numbers')
 i = 0;
 tit = 'Classified as ';
 while counter < 9
-    i = i + 468;
+    i = i + 498;
     if classified(i) == testlab(i)
         counter = counter + 1;
         subplot(3, 3, counter);
