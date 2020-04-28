@@ -16,4 +16,23 @@ for i = 1:4
     hold off
     grid
     title("Feature " + i)
+    legend("class 1", "class 2", "class 3")
 end
+
+%% Plotting feature 1 and 2 against each other
+figure
+plot(x1(:,1),x1(:,2), 'o')
+hold on
+plot(x2(:,1),x2(:,2), 'x')
+plot(x3(:,1),x3(:,2), '+')
+grid
+legend('class 1', 'class 2', 'class 3')
+
+%% Plotting feature 3 and 4 against each other
+figure
+plot(x1(:,3),x1(:,4), 'o')
+hold on
+plot(x2(:,3),x2(:,4), 'x')
+plot(x3(:,3),x3(:,4), '+')
+grid
+legend('class 1', 'class 2', 'class 3')
